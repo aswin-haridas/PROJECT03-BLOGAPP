@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceCapsule.</title>
+    <style>
+        * {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        h1 {}
+
+        .post-form {
+            margin-bottom: 20px;
+        }
+
+        .post-form input,
+        .post-form textarea {
+            font-weight: bold;
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .post-form button {
+            background: #000;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .posts {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .post {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .post img {
+            height: 300px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .heading {
+            display: flex;
+            justify-content: center;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <p style="font-size: 30px; font-weight: bold;">SpaceCapsule.</p>
+    </header>
+    <div class="post-form">
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="imageurl" placeholder="Image URL">
+        <textarea id="content" placeholder="Content"></textarea>
+        <button onclick="addPost()">Post</button>
+    </div>
+    <div style="background-color: beige;">
+        <p class="heading">all blogs</p>
+    </div>
+    <div class="posts" id="allPosts">
+        <div class="post">
+            <h2>mars</h2>
+            <img
+                src="https://media.istockphoto.com/id/172181165/photo/fictional-planet-detailed.jpg?s=612x612&w=0&k=20&c=SeKTQvSLM4qX_WBUmZnk3V4xH-__IHhSFYXDqYvvrWU=">
+            <p>Mars is the fourth planet from the Sun. The surface of Mars is orange-red because it is covered in
+                iron(III)
+                oxide dust, giving it the nickname "the Red Planet". Mars is among the brightest objects in Earth's sky,
+                and
+                its high-contrast albedo features have made it a common subject for telescope viewing.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
