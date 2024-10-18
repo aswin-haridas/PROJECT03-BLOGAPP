@@ -8,6 +8,7 @@ router.use(bodyparser.urlencoded({ urlencoded: true }));
 
 
 router.get('/blogs',async (req,res) => {
+    
     try{
         const blogs = await Blog.find().sort({date : -1});//fetch from db 
         res.status(201).json(blogs);

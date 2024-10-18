@@ -15,10 +15,10 @@ mongoose.connect(process.env.mongo_url).then(() => {
 
 const router = require('./routes/blog');
 
-app.use(router);
+app.use('/api/', router);
 
 
-const port = 4000;
+const port = 3000;
 
 app.listen(port, () => {
     console.log(`app running on port ${port}`);
