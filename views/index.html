@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceCapsule</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<style>
+    :root {
+        --main-font: 'Courier New', Courier, monospace;
+        --main-bg-color: #fff;
+        --primary-color: #000;
+        --secondary-color: bisque;
+        --input-padding: 10px;
+        --input-margin: 10px 0;
+        --font-size-large: 30px;
+        --font-size-medium: 16px;
+    }
+
+    * {
+        font-family: var(--main-font);
+    }
+
+    body {
+        padding: 20px;
+    }
+
+    header {
+        font-size: var(--font-size-large);
+        font-weight: bold;
+    }
+
+    .post-form {
+        margin-bottom: 20px;
+    }
+
+    .post-form input,
+    .post-form textarea {
+        font-weight: bold;
+        display: block;
+        width: 100%;
+        margin: var(--input-margin);
+        padding: var(--input-padding);
+        font-size: var(--font-size-medium);
+    }
+
+    .post-form button {
+        background: var(--primary-color);
+        color: var(--main-bg-color);
+        padding: var(--input-padding) var(--input-padding * 2);
+        font-size: var(--font-size-medium);
+        cursor: pointer;
+    }
+
+    .posts {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 10px;
+    }
+
+    .post {
+        border: 1px solid #ddd;
+        padding: 20px;
+    }
+
+    .post img {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .heading {
+        display: flex;
+        justify-content: center;
+        font-size: var(--font-size-large);
+    }
+
+    .divider {
+        background-color: var(--secondary-color);
+        padding: 10px 0;
+    }
+
+    .divider p {
+        margin: 0;
+    }
+</style>
+
+<body>
+
+    <header>
+        SpaceCapsule
+    </header>
+
+    <section class="post-form">
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="imgUrl" placeholder="Image URL">
+        <textarea id="content" placeholder="Content"></textarea>
+        <button id="postButton">Post</button>
+    </section>
+
+    <div class="divider">
+        <p class="heading">All blogs</p>
+    </div>
+
+    <section class="posts" id="all-posts">
+    </section>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const postButton = document.getElementById('postButton');
+            postButton.addEventListener('click', debounce(addPost, 300));
+        });
+        async function addPost(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const imgUrl = document.getElementById('imgUrl').value;
+            const content = document.getElementById('content').value;
+
+
+            // if (!isValidImageUrl(imgUrl)) {
+            //     alert('Please enter a valid image URL')
+            //     return;
+            // }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/blogs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, imgUrl, content })
+                });
+                if (response.ok) {
+                    const newBlog = await response.json();
+                    const blogContainer = document.getElementById('all-posts');
+                    const blogDiv = document.createElement('div');
+                    blogDiv.classList.add('post');
+                    blogDiv.innerHTML = `
+                <h2>${newBlog.title}</h2>
+                <img src="${newBlog.imgUrl}" alt="${newBlog.title}">
+                <p>${newBlog.content}</p>
+            `;
+                    blogContainer.appendChild(blogDiv);
+                } else {
+                    console.error('Failed to add post');
+                }
+            } catch (error) {
+                console.error('Error adding post:', error);
+            }
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        async function fetchBlogs() {
+            try {
+                const response = await fetch('/api/blogs');
+                const blogs = await response.json();
+
+                const blogContainer = document.getElementById('all-posts');
+                blogContainer.innerHTML = '';
+                blogs.forEach(blog => {
+                    const blogDiv = document.createElement('div');
+                    blogDiv.classList.add('post');
+                    blogDiv.innerHTML = `
+                <h2>${blog.title}</h2>
+                <img src="${blog.imgUrl || 'https://via.placeholder.com/300'}" alt="${blog.title}">
+                <p>${blog.content}</p>
+            `;
+                    blogContainer.appendChild(blogDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching blogs:', error);
+            }
+        }
+
+        fetchBlogs();
+    </script>
+
+</body>
+
+</html>
