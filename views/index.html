@@ -114,6 +114,7 @@
             const postButton = document.getElementById('postButton');
             postButton.addEventListener('click', debounce(addPost, 300));
         });
+        
         async function addPost(e) {
             e.preventDefault();
             const title = document.getElementById('title').value;
@@ -141,15 +142,24 @@
                 <h2>${newBlog.title}</h2>
                 <img src="${newBlog.imgUrl}" alt="${newBlog.title}">
                 <p>${newBlog.content}</p>
+                <button onclick="editPost(${newBlog.id})">hellow</button>
             `;
                     blogContainer.appendChild(blogDiv);
+                
                 } else {
                     console.error('Failed to add post');
                 }
             } catch (error) {
                 console.error('Error adding post:', error);
             }
+
         }
+
+        async function editPost() {
+            const response = await fetch('/api/blogs');
+            
+        }
+
 
         function debounce(func, wait) {
             let timeout;
@@ -158,6 +168,8 @@
                 timeout = setTimeout(() => func.apply(this, args), wait);
             };
         }
+
+
 
         async function fetchBlogs() {
             try {
@@ -171,7 +183,7 @@
                     blogDiv.classList.add('post');
                     blogDiv.innerHTML = `
                 <h2>${blog.title}</h2>
-                <img src="${blog.imgUrl || 'https://via.placeholder.com/300'}" alt="${blog.title}">
+                <img src="${blog.imgUrl}" alt="${blog.title}">
                 <p>${blog.content}</p>
             `;
                     blogContainer.appendChild(blogDiv);
@@ -180,8 +192,8 @@
                 console.error('Error fetching blogs:', error);
             }
         }
-
         fetchBlogs();
+
     </script>
 
 </body>
