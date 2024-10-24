@@ -234,15 +234,16 @@
             document.getElementById('content').value = '';
         }
 
-        // Edit blog post functionality
-        let currentEditId;
-
         function openEditModal(id, title, content, imgUrl) {
-            currentEditId = id;
+            let currentEditId = id;
             document.getElementById('editTitle').value = title;
             document.getElementById('editContent').value = content;
             document.getElementById('editImgUrl').value = imgUrl;
             document.getElementById('editModal').style.display = 'block';
+
+            document.getElementById('saveButton').onclick = (e) => updatePost(e, currentEditId);
+
+
         }
 
         async function editPost(id) {
@@ -272,8 +273,7 @@
                 });
 
                 if (response.ok) {
-                    console.log('edited suskesfulli');
-                    
+
                     document.getElementById('editModal').style.display = 'none';
                     fetchBlogs();
                 } else {
