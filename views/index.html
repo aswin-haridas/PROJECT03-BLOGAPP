@@ -129,6 +129,9 @@
         color: #000;
         cursor: pointer
     }
+    .modal{
+        display: none;
+    }
 </style>
 
 <body>
@@ -194,8 +197,8 @@
                 <h2>${blog.title}</h2>
                 <img src="${blog.imgUrl}" alt="${blog.title}">
                 <p>${blog.content}</p>
-                <button onclick="openEditModal('${blog._id}', '${blog.title}', '${blog.content}', '${blog.imgUrl}')">Edit</button>
-                <button onclick="deletePost('${blog._id}')">Delete</button>
+                <button class="editbutton" onclick="openEditModal('${blog._id}', '${blog.title}', '${blog.content}', '${blog.imgUrl}')">Edit</button>
+                <button class="deletebutton" onclick="deletePost('${blog._id}')">Delete</button>
             `;
             document.getElementById('all-posts').appendChild(blogDiv);
         }
